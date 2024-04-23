@@ -41,7 +41,7 @@ header nav {
   gap: 15px;
 }
 header nav button {
-    border-radius: 20%;
+  border-radius: 20%;
 }
 
 /* My Groups Page (Index Page) */
@@ -112,69 +112,95 @@ button:hover {
 
 /* Modal styles */
 .modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.create-group-container {
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+/* Media query for responsiveness */
+@media (max-width: 500px) {
   .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    width: 100%;
+    max-width: 90%;
   }
-  
-  .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 20px;
-  }
-  
-  .create-group-container {
-    text-align: center;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  form input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  form button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  form button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Media query for responsiveness */
-  @media (max-width: 500px) {
-    .modal-content {
-      max-width: 90%;
-    }
-  }
-  
+}
+
+/* My Groups */
+.group-container .group-info a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Group Details Page */
+.group-details-page h1 {
+  text-align: center;
+}
+
+/* Add Expense */
+.split-equally-container,
+.paid-by-container {
+  display: flex;
+  align-items: center;
+}
+.split-equally-container label {
+  width: 100%;
+}
+.expense-form-container {
+  margin-bottom: 10px;
+}
+.paid-by-container {
+  gap: 180px;
+}

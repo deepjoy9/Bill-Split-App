@@ -19,12 +19,11 @@ const CreateGroup = ({ toggleModal }) => {
     <>
       <div className="create-group-container">
         <h2>Create a new group</h2>
-        <form id="create-group-form">
+        <form>
           <div className="form-group">
             <label htmlFor="group-name">Group Name:</label>
             <input
               type="text"
-              id="group-name"
               name="group-name"
               placeholder="Enter group name"
               value={groupName}
