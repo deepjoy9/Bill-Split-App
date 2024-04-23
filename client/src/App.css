@@ -1,0 +1,107 @@
+/* App */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", "Outfit";
+}
+body {
+  color: #222;
+  background-color: #f2f2f2;
+}
+
+/* Layout */
+
+main {
+  padding: 10px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  align-items: center;
+}
+header a {
+  text-decoration: none;
+  color: inherit;
+}
+header a.logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+header nav {
+  display: flex;
+  gap: 15px;
+}
+
+/* My Groups Page (Index Page) */
+
+.group-container {
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.group-info {
+  padding: 10px;
+}
+.group-info h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.group-info p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Create New Group Page */
+
+.create-group-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.create-group-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
+}
