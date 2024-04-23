@@ -1,27 +1,16 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import MyGroups from "../components/MyGroups";
+import { GroupContext } from "../context/GroupContext";
 
 const MyGroupsPage = () => {
+  const { groups } = useContext(GroupContext);
+
   return (
-    <>
-      <div class="group-container">
-        <div class="group-info">
-          <h2>Group Name</h2>
-          <p>April 23, 2024</p>
-        </div>
-      </div>
-      <div class="group-container">
-        <div class="group-info">
-          <h2>Darjeeling</h2>
-          <p>March 29, 2024</p>
-        </div>
-      </div>
-      <div class="group-container">
-        <div class="group-info">
-          <h2>Sikkim</h2>
-          <p>June 1, 2024</p>
-        </div>
-      </div>
-    </>
+    <div>
+      {groups.map((group, index) => (
+        <MyGroups key={index} name={group.name} date={group.date} />
+      ))}
+    </div>
   );
 };
 
