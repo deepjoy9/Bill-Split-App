@@ -16,6 +16,7 @@ const Header = () => {
       </Link>
       <nav>
         <Link to="/">My Groups</Link>
+        <Link to="/friends">My Friends</Link>
         <button onClick={toggleModal}>+</button>
       </nav>
       {showModal && (

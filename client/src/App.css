@@ -44,7 +44,7 @@ header nav button {
   border-radius: 20%;
 }
 
-/* My Groups Page (Index Page) */
+/* My Groups */
 
 .group-container {
   background-color: #f0f8ff;
@@ -63,6 +63,10 @@ header nav button {
 .group-info p {
   font-size: 16px;
   color: #666;
+}
+.group-container .group-info a {
+  text-decoration: none;
+  color: inherit;
 }
 
 /* Create Group */
@@ -178,18 +182,12 @@ form button:hover {
   }
 }
 
-/* My Groups */
-.group-container .group-info a {
-  text-decoration: none;
-  color: inherit;
-}
-
 /* Group Details Page */
 .group-details-page h1 {
   text-align: center;
 }
 
-/* Add Expense */
+/* Add Expense Component */
 .split-equally-container,
 .paid-by-container {
   display: flex;
@@ -203,4 +201,24 @@ form button:hover {
 }
 .paid-by-container {
   gap: 180px;
+}
+
+/* My Friends Page */
+.add-friends-button {
+  margin-bottom: 20px;
+}
+
+/* Add Members Component */
+
+.checkbox-input {
+  margin-right: 5px;
+}
+
+.checkbox-label {
+  margin-left: 5px;
+  font-weight: bold;
+  
+}
+.add-members-label{
+  font-size: 20px;
 }

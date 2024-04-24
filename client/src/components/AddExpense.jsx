@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
 import { ExpenseContext } from "../context/ExpenseContext";
+import { FriendContext } from "../context/FriendContext";
 
 const AddExpense = ({ toggleModal }) => {
   const [expenseName, setExpenseName] = useState("");
   const [amount, setAmount] = useState(0);
   const { addExpense } = useContext(ExpenseContext);
   const members = ["Jett", "Sage", "Viper", "Reyna"];
+  const { friends } = useContext(FriendContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,8 +50,8 @@ const AddExpense = ({ toggleModal }) => {
             <div className="paid-by-container">
               <label htmlFor="group-name">Paid By :</label>
               <select name="members" id="members">
-                {members.map((member, index) => (
-                  <option key={index}>{member}</option>
+                {friends.map((friend, index) => (
+                  <option key={index}>{friend.name}</option>
                 ))}
               </select>
             </div>
