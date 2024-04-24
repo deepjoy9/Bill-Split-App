@@ -25,7 +25,7 @@ header {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   align-items: center;
 }
 header a {
@@ -67,6 +67,12 @@ header nav button {
 .group-container .group-info a {
   text-decoration: none;
   color: inherit;
+}
+
+/* My Groups Page */
+.my-groups-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 /* Create Group */
@@ -204,6 +210,10 @@ form button:hover {
 }
 
 /* My Friends Page */
+.my-friends-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
 .add-friends-button {
   margin-bottom: 20px;
 }
@@ -217,8 +227,7 @@ form button:hover {
 .checkbox-label {
   margin-left: 5px;
   font-weight: bold;
-  
 }
-.add-members-label{
+.add-members-label {
   font-size: 20px;
 }

@@ -12,9 +12,10 @@ const MyFriendsPage = () => {
   };
 
   return (
-    <div>
+    <div className="my-friends-page">
+      <h1>My Friends : </h1>
       <div className="add-friends-button">
-        <button onClick={toggleModal}>Add Friends +</button>
+        <button onClick={toggleModal}>Add Friend +</button>
         {showModal && (
           <div className="modal">
             <div className="modal-content">
