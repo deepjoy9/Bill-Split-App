@@ -1,9 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FriendContext } from "../context/FriendContext";
+import { GroupContext } from "../context/GroupContext";
 
-const AddMembers = ({ toggleModal }) => {
+const AddMembers = ({ toggleModal, alreadyAddedMembers, groupId }) => {
+  const { updateGroup } = useContext(GroupContext);
   const { friends } = useContext(FriendContext);
   const [selectedFriends, setSelectedFriends] = useState([]);
+  console.log("Group ID in AddMembers component:", groupId);
+  console.log(alreadyAddedMembers);
+
+  useEffect(() => {
+    // Initialize selectedFriends state with alreadyAddedMembers when the component mounts
+    console.log("Rerender", alreadyAddedMembers);
+    setSelectedFriends(alreadyAddedMembers);
+  }, [alreadyAddedMembers]);
 
   const handleCheckboxChange = (friendName) => {
     if (selectedFriends.includes(friendName)) {
@@ -14,9 +24,13 @@ const AddMembers = ({ toggleModal }) => {
   };
 
   const handleAddMembers = () => {
-    // Implement your logic to add selected friends to the group
-    console.log("Selected Friends:", selectedFriends);
-    // Reset selectedFriends state after adding members
+    // Remove duplicates from selectedFriends array
+    const uniqueSelectedFriends = [...new Set(selectedFriends)];
+
+    // Update group members using updateGroup function from GroupContext
+    updateGroup(groupId, { members: uniqueSelectedFriends });
+
+    // Reset selectedFriends state to empty array after adding members
     setSelectedFriends([]);
   };
 
@@ -33,8 +47,11 @@ const AddMembers = ({ toggleModal }) => {
               value={friend.name}
               checked={selectedFriends.includes(friend.name)}
               onChange={() => handleCheckboxChange(friend.name)}
+              disabled={alreadyAddedMembers.includes(friend.name)} // Disable if friend is already added
             />
-            <label className="add-members-label" htmlFor={`friend-${index}`}>{friend.name}</label>
+            <label className="add-members-label" htmlFor={`friend-${index}`}>
+              {friend.name}
+            </label>
           </div>
         ))}
       </div>

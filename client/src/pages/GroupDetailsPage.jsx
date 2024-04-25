@@ -27,7 +27,11 @@ const GroupDetailsPage = () => {
         <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={toggleMembersModal}></span>
-            <AddMembers toggleModal={toggleMembersModal} />
+            <AddMembers
+              toggleModal={toggleMembersModal}
+              alreadyAddedMembers={groups[0]?.groupMembers || []}
+              groupId={groups[0]?.groupId}
+            />
           </div>
         </div>
       )}
