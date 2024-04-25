@@ -3,6 +3,7 @@ import { GroupContext } from "../context/GroupContext";
 import { ExpenseContext } from "../context/ExpenseContext";
 import AddExpense from "../components/AddExpense";
 import AddMembers from "../components/AddMembers";
+import ExpenseCard from "../components/ExpenseCard";
 
 const GroupDetailsPage = () => {
   const { groups } = useContext(GroupContext);
@@ -39,6 +40,12 @@ const GroupDetailsPage = () => {
           </div>
         </div>
       )}
+      <div className="my-expense-list">
+        <h2>Expenses:</h2>
+        {expenses.map((expense, index) => (
+          <ExpenseCard key={index} expense={expense} />
+        ))}
+      </div>
       {expenses.length === 0 && (
         <p>No expenses added yet. Click "Add Expense" to start.</p>
       )}

@@ -20,8 +20,20 @@ const AddExpense = ({ toggleModal }) => {
       alert("Please enter an expense name");
       return;
     }
-    if (paidBy.trim() === "") {
-      alert("Please select who paid for the expense");
+
+    if (!splitEqually && !splitManuallyEnabled) {
+      alert("Please select a split option");
+      return;
+    }
+
+    //Check if any manual split fields are empty
+    const emptyManualSplit = splitManually.some(
+      (split) =>
+        split.member === "" || split.amount === "" || split.description === ""
+    );
+
+    if (emptyManualSplit) {
+      alert("Please add at least one manual split entry");
       return;
     }
     const newExpense = {
@@ -42,12 +54,12 @@ const AddExpense = ({ toggleModal }) => {
     toggleModal();
   };
 
-  const handleAddSplitEntry = () => {
-    setSplitManually([
-      ...splitManually,
-      { member: "", amount: "", description: "" },
-    ]);
-  };
+  // const handleAddSplitEntry = () => {
+  //   setSplitManually([
+  //     ...splitManually,
+  //     { member: "", amount: "", description: "" },
+  //   ]);
+  // };
 
   const handleManualSplitOnChange = (index, field, value) => {
     const updatedSplit = [...splitManually];

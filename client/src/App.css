@@ -265,3 +265,19 @@ form button:hover {
 .add-members-label {
   font-size: 20px;
 }
+
+
+/* Expense Card Component */
+.manual-split-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.manual-split-item {
+  margin-bottom: 5px;
+}
+
+.manual-split-item strong {
+  margin-right: 5px;
+  font-weight: bold;
+}
