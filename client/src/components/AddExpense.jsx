@@ -13,38 +13,46 @@ const AddExpense = ({ toggleModal }) => {
   ]);
   const { addExpense } = useContext(ExpenseContext);
   const { friends } = useContext(FriendContext);
+  const [membersInvolved, setMembersInvolved] = useState([]);
+  const [showMembersAccordion, setShowMembersAccordion] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmitForm = (e) => {
     e.preventDefault();
-    if (expenseName.trim() === "") {
-      alert("Please enter an expense name");
-      return;
-    }
+    // if (expenseName.trim() === "") {
+    //   alert("Please enter an expense name");
+    //   return;
+    // }
 
-    if (!splitEqually && !splitManuallyEnabled) {
-      alert("Please select a split option");
-      return;
-    }
+    // if (!splitEqually && !splitManuallyEnabled) {
+    //   alert("Please select a split option");
+    //   return;
+    // }
 
-    //Check if any manual split fields are empty
-    const emptyManualSplit = splitManually.some(
+    // const emptyManualSplit = splitManually.some(
+    //   (split) =>
+    //     split.member === "" || split.amount === "" || split.description === ""
+    // );
+
+    // if (emptyManualSplit) {
+    //   alert("Please add at least one manual split entry");
+    //   return;
+    // }
+    const filterSplitManuallyEmptyEntries = splitManually.filter(
       (split) =>
-        split.member === "" || split.amount === "" || split.description === ""
+        split.member !== "" || split.amount !== "" || split.description !== ""
     );
 
-    if (emptyManualSplit) {
-      alert("Please add at least one manual split entry");
-      return;
-    }
     const newExpense = {
       name: expenseName,
       amount: parseFloat(amount),
       paidBy: paidBy,
       splitEqually: splitEqually,
-      splitManually: splitManually,
+      splitManually: filterSplitManuallyEmptyEntries,
+      membersInvolved: membersInvolved,
     };
     console.log(newExpense);
     addExpense(newExpense);
+
     setExpenseName("");
     setAmount("");
     setPaidBy("");
@@ -54,12 +62,17 @@ const AddExpense = ({ toggleModal }) => {
     toggleModal();
   };
 
-  // const handleAddSplitEntry = () => {
-  //   setSplitManually([
-  //     ...splitManually,
-  //     { member: "", amount: "", description: "" },
-  //   ]);
-  // };
+  const toggleMembersAccordion = () => {
+    setShowMembersAccordion(!showMembersAccordion);
+  };
+
+  const handleCheckboxChange = (memberName) => {
+    if (membersInvolved.includes(memberName)) {
+      setMembersInvolved(membersInvolved.filter((name) => name !== memberName));
+    } else {
+      setMembersInvolved([...membersInvolved, memberName]);
+    }
+  };
 
   const handleManualSplitOnChange = (index, field, value) => {
     const updatedSplit = [...splitManually];
@@ -83,7 +96,7 @@ const AddExpense = ({ toggleModal }) => {
 
   return (
     <div className="add-expense">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitForm}>
         <div className="form-group">
           {/* Expense name */}
           <div className="expense-form-container">
@@ -95,7 +108,7 @@ const AddExpense = ({ toggleModal }) => {
               placeholder="Enter expense name"
               value={expenseName}
               onChange={(e) => setExpenseName(e.target.value)}
-              required
+              // required
             />
           </div>
 
@@ -109,7 +122,7 @@ const AddExpense = ({ toggleModal }) => {
               placeholder="Enter amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              required
+              // required
             />
           </div>
 
@@ -121,7 +134,7 @@ const AddExpense = ({ toggleModal }) => {
               name="paid-by"
               value={paidBy}
               onChange={(e) => setPaidBy(e.target.value)}
-              required
+              // required
             >
               <option value="">Select...</option>
               <option value="You">You</option>
@@ -131,6 +144,36 @@ const AddExpense = ({ toggleModal }) => {
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* Add Members Involved Accordion */}
+          <div>
+            <button type="button" onClick={toggleMembersAccordion}>
+              Add Members Involved
+            </button>
+            {showMembersAccordion && (
+              <div className="add-members-container">
+                <div className="checkbox-container">
+                  {friends.map((member, index) => (
+                    <div key={index}>
+                      <input
+                        type="checkbox"
+                        id={`member-${index}`}
+                        value={member.name}
+                        checked={membersInvolved.includes(member.name)}
+                        onChange={() => handleCheckboxChange(member.name)}
+                      />
+                      <label
+                        className="add-members-label"
+                        htmlFor={`member-${index}`}
+                      >
+                        {member.name}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Split Equally */}

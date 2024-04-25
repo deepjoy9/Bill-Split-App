@@ -6,7 +6,8 @@ const ExpenseCard = ({ expense }) => {
     return <div>No expense data available</div>;
   }
 
-  const { name, amount, paidBy, splitEqually, splitManually } = expense;
+  const { name, amount, paidBy, splitEqually, splitManually, membersInvolved } =
+    expense;
 
   return (
     <div className="group-container">
@@ -18,8 +19,15 @@ const ExpenseCard = ({ expense }) => {
         <p>
           <strong>Paid By:</strong> {paidBy}
         </p>
+        {membersInvolved && (
+          <p>
+            <strong>Members Involved:</strong> {membersInvolved.join(", ")}
+          </p>
+        )}
         {splitEqually ? (
-          <p>Split Equally</p>
+          <p>
+            <strong>Split Equally</strong>
+          </p>
         ) : (
           <div>
             <p>
