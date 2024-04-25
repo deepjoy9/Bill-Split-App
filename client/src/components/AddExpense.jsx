@@ -79,8 +79,12 @@ const AddExpense = ({ toggleModal }) => {
     updatedSplit[index][field] = value;
     setSplitManually(updatedSplit);
 
-    // Automatically add a new manual split field if the last field has a member selected
-    if (index === splitManually.length - 1 && value !== "") {
+    // Automatically add a new manual split field if the last field has both member and amount selected
+    if (
+      index === splitManually.length - 1 &&
+      value !== "" &&
+      splitManually[index].amount !== ""
+    ) {
       setSplitManually([
         ...splitManually,
         { member: "", amount: "", description: "" },
