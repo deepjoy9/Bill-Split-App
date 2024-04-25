@@ -194,12 +194,18 @@ form button:hover {
 }
 
 /* Add Expense Component */
+.add-expense {
+  height: 70vh;
+  overflow-y: auto;
+}
 .split-equally-container,
+.split-manually-label-and-checkbox,
 .paid-by-container {
   display: flex;
   align-items: center;
 }
-.split-equally-container label {
+.split-equally-container label,
+.split-manually-label-and-checkbox label {
   width: 100%;
 }
 .expense-form-container {
@@ -207,6 +213,34 @@ form button:hover {
 }
 .paid-by-container {
   gap: 180px;
+}
+.manual-split-fields {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.manual-split-item {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.manual-split-item select {
+  width: 70px;
+}
+.manual-split-item button {
+  width: 80px;
+}
+.manual-split-item button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manual-split-item select,
+.manual-split-item input[type="number"],
+.manual-split-item input[type="text"] {
+  margin-right: 10px;
 }
 
 /* My Friends Page */

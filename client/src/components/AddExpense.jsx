@@ -4,16 +4,20 @@ import { FriendContext } from "../context/FriendContext";
 
 const AddExpense = ({ toggleModal }) => {
   const [expenseName, setExpenseName] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [paidBy, setPaidBy] = useState("");
   const [splitEqually, setSplitEqually] = useState(false);
+  const [splitManuallyEnabled, setSplitManuallyEnabled] = useState(false);
+  const [splitManually, setSplitManually] = useState([
+    { member: "", amount: "", description: "" },
+  ]);
   const { addExpense } = useContext(ExpenseContext);
   const { friends } = useContext(FriendContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (expenseName.trim() === "") {
-      alert("Please enter a expense name");
+      alert("Please enter an expense name");
       return;
     }
     if (paidBy.trim() === "") {
@@ -22,74 +26,193 @@ const AddExpense = ({ toggleModal }) => {
     }
     const newExpense = {
       name: expenseName,
-      amount: amount,
+      amount: parseFloat(amount),
       paidBy: paidBy,
       splitEqually: splitEqually,
+      splitManually: splitManually,
     };
+    console.log(newExpense);
     addExpense(newExpense);
     setExpenseName("");
-    setAmount(0);
+    setAmount("");
     setPaidBy("");
     setSplitEqually(false);
+    setSplitManuallyEnabled(false);
+    setSplitManually([{ member: "", amount: "", description: "" }]);
     toggleModal();
   };
 
+  const handleAddSplitEntry = () => {
+    setSplitManually([
+      ...splitManually,
+      { member: "", amount: "", description: "" },
+    ]);
+  };
+
+  const handleManualSplitOnChange = (index, field, value) => {
+    const updatedSplit = [...splitManually];
+    updatedSplit[index][field] = value;
+    setSplitManually(updatedSplit);
+
+    // Automatically add a new manual split field if the last field has a member selected
+    if (index === splitManually.length - 1 && value !== "") {
+      setSplitManually([
+        ...splitManually,
+        { member: "", amount: "", description: "" },
+      ]);
+    }
+  };
+
+  const handleRemoveManualSplit = (index) => {
+    const updatedSplit = [...splitManually];
+    updatedSplit.splice(index, 1);
+    setSplitManually(updatedSplit);
+  };
+
   return (
-    <div className="group-details-page">
-      <form>
+    <div className="add-expense">
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
+          {/* Expense name */}
           <div className="expense-form-container">
-            <label htmlFor="group-name">Add Expense :</label>
+            <label htmlFor="expense-name">Expense Name :</label>
             <input
               type="text"
-              name="group-name"
+              id="expense-name"
+              name="expense-name"
               placeholder="Enter expense name"
               value={expenseName}
               onChange={(e) => setExpenseName(e.target.value)}
               required
-            ></input>
+            />
           </div>
+
+          {/* Amount */}
           <div className="expense-form-container">
-            <label htmlFor="group-name">Add Amount :</label>
+            <label htmlFor="amount">Amount :</label>
             <input
-              type="text"
+              type="number"
+              id="amount"
               name="amount"
               placeholder="Enter amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
-            ></input>
-          </div>
-          <div className="expense-form-container">
-            <div className="paid-by-container">
-              <label htmlFor="group-name">Paid By :</label>
-              <select
-                name="paid-by"
-                id="paid-by"
-                value={paidBy}
-                onChange={(e) => setPaidBy(e.target.value)}
-                required
-              >
-                {friends.map((friend, index) => (
-                  <option key={index}>{friend.name}</option>
-                ))}
-              </select>
-            </div>
+            />
           </div>
 
+          {/* Paid by */}
+          <div className="expense-form-container">
+            <label htmlFor="paid-by">Paid By :</label>
+            <select
+              id="paid-by"
+              name="paid-by"
+              value={paidBy}
+              onChange={(e) => setPaidBy(e.target.value)}
+              required
+            >
+              <option value="">Select...</option>
+              <option value="You">You</option>
+              {friends.map((friend, index) => (
+                <option key={index} value={friend.name}>
+                  {friend.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Split Equally */}
           <div className="split-equally-container">
-            <label htmlFor="group-name">Split Equally :</label>
+            <label htmlFor="split-equally">Split Equally :</label>
             <input
               type="checkbox"
               id="split-equally"
               name="split-equally"
               checked={splitEqually}
               onChange={(e) => setSplitEqually(e.target.checked)}
-            ></input>
+              disabled={splitManuallyEnabled}
+            />
           </div>
+
+          {/* Split Manually */}
+          <div className="split-manually-container">
+            <div className="split-manually-label-and-checkbox">
+              <label htmlFor="split-manually">Split Manually :</label>
+              <input
+                type="checkbox"
+                id="split-manually"
+                name="split-manually"
+                checked={splitManuallyEnabled}
+                onChange={(e) => setSplitManuallyEnabled(e.target.checked)}
+                disabled={splitEqually}
+              />
+            </div>
+            {splitManuallyEnabled && (
+              <div className="manual-split-fields">
+                {splitManually.map((split, index) => (
+                  <div key={index} className="manual-split-item">
+                    <select
+                      value={split.member}
+                      onChange={(e) =>
+                        handleManualSplitOnChange(
+                          index,
+                          "member",
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value="">Select member</option>
+                      <option value="You">You</option>
+                      {friends.map((friend, idx) => (
+                        <option key={idx} value={friend.name}>
+                          {friend.name}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="text"
+                      value={split.amount}
+                      onChange={(e) =>
+                        handleManualSplitOnChange(
+                          index,
+                          "amount",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Amount"
+                    />
+                    <input
+                      type="text"
+                      value={split.description}
+                      onChange={(e) =>
+                        handleManualSplitOnChange(
+                          index,
+                          "description",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Description"
+                    />
+                    {splitManually.length > 1 && ( // Render remove button only if there are more than one fields
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveManualSplit(index)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Add Expense and Cancel Button */}
         </div>
-        <button onClick={handleSubmit}>Add Expense</button>
-        <button onClick={toggleModal}>Cancel</button>
+        <button type="submit">Add Expense</button>
+        <button type="button" onClick={toggleModal}>
+          Cancel
+        </button>
       </form>
     </div>
   );
