@@ -27,7 +27,12 @@ const MyGroupsPage = () => {
       </div>
       <div className="my-groups-list">
         {groups.map((group, index) => (
-          <MyGroups key={index} name={group.name} date={group.date} />
+          <MyGroups
+            key={index}
+            name={group.name}
+            date={group.date}
+            groupMembers={group.groupMembers}
+          />
         ))}
       </div>
     </div>
