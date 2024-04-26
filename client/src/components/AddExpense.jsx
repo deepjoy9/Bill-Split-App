@@ -131,7 +131,7 @@ const AddExpense = ({ toggleModal }) => {
           </div>
 
           {/* Paid by */}
-          <div className="expense-form-container">
+          <div className="paid-by-container">
             <label htmlFor="paid-by">Paid By :</label>
             <select
               id="paid-by"

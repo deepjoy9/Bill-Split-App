@@ -89,6 +89,12 @@ header nav button {
   font-size: 24px;
   margin-bottom: 20px;
 }
+.create-group-container button {
+  background-color: #4cd9b7;
+}
+.create-group-container button:hover {
+  background-color: #20c997;
+}
 .form-group {
   margin-bottom: 20px;
 }
@@ -111,13 +117,13 @@ button {
   font-size: 18px;
   border: none;
   border-radius: 5px;
-  background-color: #20c997;
+  background-color: #4cd9b7;
   color: #fff;
   cursor: pointer;
   margin-bottom: 5px;
 }
 button:hover {
-  background-color: #4cd9b7;
+  background-color: #20c997;
 }
 
 /* Modal styles */
@@ -198,6 +204,13 @@ form button:hover {
   height: 70vh;
   overflow-y: auto;
 }
+.add-expense button {
+  /* background-color: #20c997; */
+  background-color: #4cd9b7;
+}
+.add-expense button:hover {
+  background-color: #20c997;
+}
 .split-equally-container,
 .split-manually-label-and-checkbox,
 .paid-by-container {
@@ -214,6 +227,7 @@ form button:hover {
 .paid-by-container {
   gap: 180px;
 }
+
 .manual-split-fields {
   display: flex;
   flex-wrap: wrap;
@@ -230,6 +244,7 @@ form button:hover {
 }
 .manual-split-item button {
   width: 80px;
+  background-color: #ff6347;
 }
 .manual-split-item button {
   display: flex;
