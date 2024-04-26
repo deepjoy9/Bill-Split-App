@@ -32,11 +32,12 @@ const AddMembers = ({ toggleModal, alreadyAddedMembers, groupId }) => {
 
     // Reset selectedFriends state to empty array after adding members
     setSelectedFriends([]);
+    toggleModal();
   };
 
   return (
     <div className="add-members-container">
-      <h2>Add Members</h2>
+      <h2>Add New Members : </h2>
       <div className="checkbox-container">
         {friends.map((friend, index) => (
           <div key={index}>
