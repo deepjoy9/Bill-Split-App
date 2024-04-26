@@ -5,7 +5,7 @@ import { FriendContext } from "../context/FriendContext";
 const CreateGroup = ({ toggleModal }) => {
   const [groupName, setGroupName] = useState("");
   const { addGroup } = useContext(GroupContext);
-  const [groupMembers, setGroupMembers] = useState([]);
+  const [groupMembers, setGroupMembers] = useState(["Deepjoy"]);
   const [showMembersAccordion, setShowMembersAccordion] = useState(false);
   const { friends } = useContext(FriendContext);
 

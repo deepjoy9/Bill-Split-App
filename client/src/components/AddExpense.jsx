@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { ExpenseContext } from "../context/ExpenseContext";
 import { FriendContext } from "../context/FriendContext";
 
-const AddExpense = ({ toggleModal }) => {
+const AddExpense = ({ toggleModal, groupMembers }) => {
   const [expenseName, setExpenseName] = useState("");
   const [amount, setAmount] = useState("");
   const [paidBy, setPaidBy] = useState("");
@@ -141,10 +141,9 @@ const AddExpense = ({ toggleModal }) => {
               // required
             >
               <option value="">Select...</option>
-              <option value="You">You</option>
-              {friends.map((friend, index) => (
-                <option key={index} value={friend.name}>
-                  {friend.name}
+              {groupMembers.map((member, index) => (
+                <option key={index} value={member}>
+                  {member}
                 </option>
               ))}
             </select>
@@ -158,20 +157,20 @@ const AddExpense = ({ toggleModal }) => {
             {showMembersAccordion && (
               <div className="add-members-container">
                 <div className="checkbox-container">
-                  {friends.map((member, index) => (
+                  {groupMembers.map((member, index) => (
                     <div key={index}>
                       <input
                         type="checkbox"
                         id={`member-${index}`}
-                        value={member.name}
-                        checked={membersInvolved.includes(member.name)}
-                        onChange={() => handleCheckboxChange(member.name)}
+                        value={member}
+                        checked={membersInvolved.includes(member)}
+                        onChange={() => handleCheckboxChange(member)}
                       />
                       <label
                         className="add-members-label"
                         htmlFor={`member-${index}`}
                       >
-                        {member.name}
+                        {member}
                       </label>
                     </div>
                   ))}
@@ -221,10 +220,9 @@ const AddExpense = ({ toggleModal }) => {
                       }
                     >
                       <option value="">Select member</option>
-                      <option value="You">You</option>
-                      {friends.map((friend, idx) => (
-                        <option key={idx} value={friend.name}>
-                          {friend.name}
+                      {groupMembers.map((member, idx) => (
+                        <option key={idx} value={member}>
+                          {member}
                         </option>
                       ))}
                     </select>

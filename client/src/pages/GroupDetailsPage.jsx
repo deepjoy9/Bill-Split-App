@@ -34,7 +34,7 @@ const GroupDetailsPage = () => {
       {showMembersModal && (
         <div className="modal">
           <div className="modal-content">
-          <span className="close" onClick={toggleMembersModal}></span>
+            <span className="close" onClick={toggleMembersModal}></span>
             <GroupMembers
               groupMembers={groups[0]?.groupMembers || []}
               toggleModal={toggleMembersModal}
@@ -53,6 +53,7 @@ const GroupDetailsPage = () => {
               toggleModal={toggleAddNewMembersModal}
               alreadyAddedMembers={groups[0]?.groupMembers || []}
               groupId={groups[0]?.groupId}
+              groupMembers={groups[0]?.groupMembers || []}
             />
           </div>
         </div>
@@ -64,7 +65,10 @@ const GroupDetailsPage = () => {
         <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={toggleExpenseModal}></span>
-            <AddExpense toggleModal={toggleExpenseModal} />
+            <AddExpense
+              toggleModal={toggleExpenseModal}
+              groupMembers={groups[0]?.groupMembers || []}
+            />
           </div>
         </div>
       )}
