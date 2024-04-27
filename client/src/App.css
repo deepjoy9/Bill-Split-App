@@ -279,6 +279,9 @@ form button:hover {
   margin-right: 10px; /* Adjust the margin as needed */
 }
 
+checkbox-container > label {
+  margin-left: 5px;
+}
 .checkbox-input {
   margin-right: 5px;
 }

@@ -15,6 +15,7 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
   const { friends } = useContext(FriendContext);
   const [membersInvolved, setMembersInvolved] = useState([]);
   const [showMembersAccordion, setShowMembersAccordion] = useState(false);
+  const [selectAll, setSelectAll] = useState(false);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
@@ -74,6 +75,16 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
     }
   };
 
+  const handleSelectAll = (e) => {
+    const isChecked = e.target.checked;
+    if (isChecked) {
+      setMembersInvolved([...groupMembers]); // Select all members
+    } else {
+      setMembersInvolved([]); // Deselect all members
+    }
+    setSelectAll(isChecked); // Update selectAll state
+  };
+
   const handleManualSplitOnChange = (index, field, value) => {
     const updatedSplit = [...splitManually];
     updatedSplit[index][field] = value;
@@ -112,7 +123,7 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
               placeholder="Enter expense name"
               value={expenseName}
               onChange={(e) => setExpenseName(e.target.value)}
-              // required
+              required
             />
           </div>
 
@@ -126,7 +137,7 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
               placeholder="Enter amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              // required
+              required
             />
           </div>
 
@@ -138,7 +149,7 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
               name="paid-by"
               value={paidBy}
               onChange={(e) => setPaidBy(e.target.value)}
-              // required
+              required
             >
               <option value="">Select...</option>
               {groupMembers.map((member, index) => (
@@ -157,6 +168,19 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
             {showMembersAccordion && (
               <div className="add-members-container">
                 <div className="checkbox-container">
+                  {/* Select All checkbox */}
+                  <div>
+                    <input
+                      type="checkbox"
+                      id="select-all"
+                      checked={selectAll}
+                      onChange={handleSelectAll}
+                    />
+                    <label className="add-members-label" htmlFor="select-all">
+                      Everyone
+                    </label>
+                  </div>
+                  {/* Individual member checkboxes */}
                   {groupMembers.map((member, index) => (
                     <div key={index}>
                       <input
