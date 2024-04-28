@@ -1,11 +1,6 @@
 import React from "react";
 
 const ExpenseCard = ({ expense }) => {
-  // Check if the expense object is defined
-  if (!expense) {
-    return <div>No expense data available</div>;
-  }
-
   const { name, amount, paidBy, splitEqually, splitManually, membersInvolved } =
     expense;
 
@@ -34,13 +29,30 @@ const ExpenseCard = ({ expense }) => {
 
   // Render the splits
   const renderSplits = () => {
-    return splits.map((split, index) => (
-      <p key={index} className="split-item">
-        <strong>{split.member} :</strong> Rs. {split.amount}
-        {split.description && ` - ${split.description}`}
-      </p>
-    ));
+    return splits.map((split, index) => {
+      if (split.member === paidBy) {
+        return (
+          <p key={index} className="split-item">
+            <strong>{split.member} paid :</strong> Rs. {split.amount}
+            {split.description && ` for ${split.description}`}
+          </p>
+        );
+      } else {
+        return (
+          <p key={index} className="split-item">
+            <strong>{split.member} will pay :</strong> Rs. {split.amount} to{" "}
+            {paidBy}
+            {split.description && ` for ${split.description}`}
+          </p>
+        );
+      }
+    });
   };
+
+  // Check if the expense object is defined
+  if (!expense) {
+    return <div>No expense data available</div>;
+  }
 
   return (
     <div className="group-container">
