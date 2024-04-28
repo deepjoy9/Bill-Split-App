@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { ExpenseContext } from "../context/ExpenseContext";
-import { FriendContext } from "../context/FriendContext";
 
 const AddExpense = ({ toggleModal, groupMembers }) => {
   const [expenseName, setExpenseName] = useState("");
@@ -12,32 +11,13 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
     { member: "", amount: "", description: "" },
   ]);
   const { addExpense } = useContext(ExpenseContext);
-  const { friends } = useContext(FriendContext);
-  const [membersInvolved, setMembersInvolved] = useState([]);
+  const [membersInvolved, setMembersInvolved] = useState(groupMembers);
   const [showMembersAccordion, setShowMembersAccordion] = useState(false);
-  const [selectAll, setSelectAll] = useState(false);
+  const [selectOption, setSelectOption] = useState("everyone");
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    // if (expenseName.trim() === "") {
-    //   alert("Please enter an expense name");
-    //   return;
-    // }
 
-    // if (!splitEqually && !splitManuallyEnabled) {
-    //   alert("Please select a split option");
-    //   return;
-    // }
-
-    // const emptyManualSplit = splitManually.some(
-    //   (split) =>
-    //     split.member === "" || split.amount === "" || split.description === ""
-    // );
-
-    // if (emptyManualSplit) {
-    //   alert("Please add at least one manual split entry");
-    //   return;
-    // }
     const filterSplitManuallyEmptyEntries = splitManually.filter(
       (split) =>
         split.member !== "" || split.amount !== "" || split.description !== ""
@@ -63,26 +43,28 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
     toggleModal();
   };
 
-  const toggleMembersAccordion = () => {
-    setShowMembersAccordion(!showMembersAccordion);
+  const handleCheckboxChange = (member) => {
+    const updatedMembers = [...membersInvolved];
+    const memberIndex = updatedMembers.indexOf(member);
+    if (memberIndex > -1) {
+      // Remove the member if it exists
+      updatedMembers.splice(memberIndex, 1);
+    } else {
+      // Add the member if it doesn't exist
+      updatedMembers.push(member);
+    }
+    setMembersInvolved(updatedMembers);
+    setSelectOption("manual");
   };
 
-  const handleCheckboxChange = (memberName) => {
-    if (membersInvolved.includes(memberName)) {
-      setMembersInvolved(membersInvolved.filter((name) => name !== memberName));
-    } else {
-      setMembersInvolved([...membersInvolved, memberName]);
+  const handleSelectChange = (event) => {
+    const value = event.target.value;
+    console.log("value : ", value);
+    setSelectOption(value);
+    if (value === "manual") {
+      setMembersInvolved([]);
+      setShowMembersAccordion(true);
     }
-  };
-
-  const handleSelectAll = (e) => {
-    const isChecked = e.target.checked;
-    if (isChecked) {
-      setMembersInvolved([...groupMembers]); // Select all members
-    } else {
-      setMembersInvolved([]); // Deselect all members
-    }
-    setSelectAll(isChecked); // Update selectAll state
   };
 
   const handleManualSplitOnChange = (index, field, value) => {
@@ -160,26 +142,19 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
             </select>
           </div>
 
-          {/* Add Members Involved Accordion */}
+          {/* Add Members Involved */}
           <div>
-            <button type="button" onClick={toggleMembersAccordion}>
-              Add Members Involved
-            </button>
-            {showMembersAccordion && (
+            <div className="members-involved-container">
+              <label htmlFor="paid-by"> Add Members Involved :</label>
+              <select value={selectOption} onChange={handleSelectChange}>
+                <option value="everyone">Everyone</option>
+                <option value="manual">Manual</option>
+              </select>
+            </div>
+
+            {showMembersAccordion && selectOption === "manual" && (
               <div className="add-members-container">
                 <div className="checkbox-container">
-                  {/* Select All checkbox */}
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="select-all"
-                      checked={selectAll}
-                      onChange={handleSelectAll}
-                    />
-                    <label className="add-members-label" htmlFor="select-all">
-                      Everyone
-                    </label>
-                  </div>
                   {/* Individual member checkboxes */}
                   {groupMembers.map((member, index) => (
                     <div key={index}>
