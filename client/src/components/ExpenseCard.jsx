@@ -9,43 +9,62 @@ const ExpenseCard = ({ expense }) => {
   const { name, amount, paidBy, splitEqually, splitManually, membersInvolved } =
     expense;
 
+  // Function to calculate split equally
+  const calculateEquallySplit = () => {
+    const splitAmount = amount / membersInvolved.length;
+    return membersInvolved.map((member, index) => ({
+      member: member,
+      amount: splitAmount,
+    }));
+  };
+
+  // Function to calculate manual split
+  const calculateManualSplit = () => {
+    return splitManually.map((split) => ({
+      member: split.member,
+      amount: split.amount,
+      description: split.description,
+    }));
+  };
+
+  // Determine the splits based on the split type
+  const splits = splitEqually
+    ? calculateEquallySplit()
+    : calculateManualSplit();
+
+  // Render the splits
+  const renderSplits = () => {
+    return splits.map((split, index) => (
+      <p key={index} className="split-item">
+        <strong>{split.member} :</strong> Rs. {split.amount}
+        {split.description && ` - ${split.description}`}
+      </p>
+    ));
+  };
+
   return (
     <div className="group-container">
       <div className="group-info">
         <h3>{name}</h3>
         <p>
-          <strong>Amount:</strong> {amount}
+          <strong>Amount :</strong> Rs. {amount}
         </p>
         <p>
-          <strong>Paid By:</strong> {paidBy}
+          <strong>Paid By :</strong> {paidBy}
         </p>
         {membersInvolved && (
           <p>
-            <strong>Members Involved:</strong> {membersInvolved.join(", ")}
+            <strong>Members Involved :</strong> {membersInvolved.join(", ")}
           </p>
         )}
-        {splitEqually ? (
-          <p>
-            <strong>Split Equally</strong>
+        <div>
+          <p className="split-amounts">
+            <strong>
+              Split Amount : {splitEqually ? "Equally" : "Manually"}
+            </strong>
           </p>
-        ) : (
-          <div>
-            <p>
-              <strong>Split Manually:</strong>
-            </p>
-            <ul className="manual-split-list">
-              {splitManually.map((split, index) => (
-                <li key={index} className="manual-split-item">
-                  <strong>{split.member}:</strong> {split.amount} -{" "}
-                  {split.description}
-                </li>
-              ))}
-              {splitManually.length === 0 && (
-                <li>No manual splits available</li>
-              )}
-            </ul>
-          </div>
-        )}
+          <div className="split-list">{renderSplits()}</div>
+        </div>
       </div>
     </div>
   );

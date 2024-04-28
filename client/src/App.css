@@ -232,7 +232,7 @@ form button:hover {
   align-items: center;
   gap: 40px;
 }
-.split-options-container{
+.split-options-container {
   display: flex;
   align-items: center;
   gap: 100px;
@@ -308,19 +308,7 @@ checkbox-container > label {
 }
 
 /* Expense Card Component */
-.manual-split-list {
-  list-style-type: none;
-  padding: 0;
+
+.split-amounts {
+  margin-top: 10px;
 }
-
-.manual-split-item {
-  margin-bottom: 5px;
-}
-
-.manual-split-item strong {
-  margin-right: 5px;
-  font-weight: bold;
-}
-
-
-
