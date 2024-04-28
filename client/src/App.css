@@ -227,7 +227,15 @@ form button:hover {
 .paid-by-container {
   gap: 180px;
 }
-
+.members-involved-container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.add-members-container {
+  display: flex;
+  flex-wrap: wrap;
+}
 .manual-split-fields {
   display: flex;
   flex-wrap: wrap;
@@ -266,7 +274,6 @@ form button:hover {
 .add-friends-button {
   margin-bottom: 20px;
 }
-
 /* Add Members & Members Involved Component */
 .checkbox-container {
   display: flex;
@@ -309,3 +316,6 @@ checkbox-container > label {
   margin-right: 5px;
   font-weight: bold;
 }
+
+
+
