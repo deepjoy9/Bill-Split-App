@@ -232,6 +232,11 @@ form button:hover {
   align-items: center;
   gap: 40px;
 }
+.split-options-container{
+  display: flex;
+  align-items: center;
+  gap: 100px;
+}
 .add-members-container {
   display: flex;
   flex-wrap: wrap;
