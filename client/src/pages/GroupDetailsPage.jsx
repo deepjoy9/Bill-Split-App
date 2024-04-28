@@ -5,6 +5,7 @@ import AddExpense from "../components/AddExpense";
 import AddMembers from "../components/AddMembers";
 import ExpenseCard from "../components/ExpenseCard";
 import GroupMembers from "../components/GroupMembers";
+import ActivityCard from "../components/ActivityCard";
 
 const GroupDetailsPage = () => {
   const { groups } = useContext(GroupContext);
@@ -12,6 +13,9 @@ const GroupDetailsPage = () => {
   const [showAddNewMembersModal, setShowAddNewMembersModal] = useState(false);
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [showMembersModal, setShowMembersModal] = useState(false);
+  const [showActivity, setShowActivity] = useState(false);
+  const [showExpenses, setShowExpenses] = useState(true);
+  const [activeTab, setActiveTab] = useState("expenses");
 
   const toggleAddNewMembersModal = () => {
     setShowAddNewMembersModal(!showAddNewMembersModal);
@@ -24,6 +28,26 @@ const GroupDetailsPage = () => {
   const toggleMembersModal = () => {
     setShowMembersModal(!showMembersModal);
   };
+
+  const toggleExpenses = () => {
+    if (!showExpenses) {
+      setShowExpenses(true);
+      setShowActivity(false);
+    }
+  };
+
+  const toggleActivity = () => {
+    if (!showActivity) {
+      setShowActivity(true);
+      setShowExpenses(false);
+    }
+  };
+
+  // Mock activity log
+  const activityLog = [
+    "New group members added on 2024-04-29",
+    "New expense added on 2024-04-28",
+  ];
 
   return (
     <div className="group-details-page">
@@ -73,16 +97,59 @@ const GroupDetailsPage = () => {
         </div>
       )}
 
-      {/* Display all list of Expenses */}
-      <div className="my-expense-list">
-        <h2>Expenses:</h2>
-        {expenses.map((expense, index) => (
-          <ExpenseCard key={index} expense={expense} />
-        ))}
+      {/* Tabs */}
+
+      <div className="group-tabs">
+        <div className="group-tab-buttons">
+          <button
+            onClick={() => {
+              toggleExpenses();
+              setActiveTab("expenses");
+            }}
+            className={activeTab === "expenses" ? "active" : ""}
+          >
+            View Expenses
+          </button>
+          <button
+            onClick={() => {
+              toggleActivity();
+              setActiveTab("activity");
+            }}
+            className={activeTab === "activity" ? "active" : ""}
+          >
+            View Activity
+          </button>
+        </div>
+
+        {/* Display all list of Expenses */}
+        <div>
+          {showExpenses && (
+            <div className="my-expense-list">
+              <h2>Expenses:</h2>
+              {expenses.map((expense, index) => (
+                <ExpenseCard key={index} expense={expense} />
+              ))}
+
+              {expenses.length === 0 && (
+                <p>No expenses added yet. Click "Add Expense" to start.</p>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Activity tab */}
+        <div>
+          {showActivity && (
+            <div className="activity-log">
+              <h2>Group Activities:</h2>
+              {activityLog.map((activity, index) => (
+                <ActivityCard key={index} activity={activity} />
+              ))}
+              {activityLog.length === 0 && <p>No activity data available</p>}
+            </div>
+          )}
+        </div>
       </div>
-      {expenses.length === 0 && (
-        <p>No expenses added yet. Click "Add Expense" to start.</p>
-      )}
     </div>
   );
 };

@@ -198,6 +198,20 @@ form button:hover {
 .group-details-page h1 {
   text-align: center;
 }
+.group-tab-buttons {
+  display: flex;
+  gap: 10px;
+}
+.group-tab-buttons button {
+  background-color: #4cd9b7; 
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.group-tab-buttons button.active {
+  background-color: #2f9980;
+}
 
 /* Add Expense Component */
 .add-expense {
@@ -279,6 +293,7 @@ form button:hover {
 .add-friends-button {
   margin-bottom: 20px;
 }
+
 /* Add Members & Members Involved Component */
 .checkbox-container {
   display: flex;
@@ -311,4 +326,22 @@ checkbox-container > label {
 
 .split-amounts {
   margin-top: 10px;
+}
+
+/* Activity Card Component */
+
+.activity-container {
+  background-color: #b0c4de;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.activity-info {
+  padding: 10px;
+}
+
+.activity p {
+  font-size: 16px;
+  color: #666;
 }
