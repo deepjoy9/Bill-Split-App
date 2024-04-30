@@ -22,13 +22,20 @@ const GroupDetailsPage = () => {
   const [showExpenses, setShowExpenses] = useState(true);
   const [activeTab, setActiveTab] = useState("expenses");
   const [groupActivities, setGroupActivities] = useState([]);
+  const [filteredExpenses, setFilteredExpenses] = useState([]);
 
   useEffect(() => {
     const filteredActivities = activityLog.filter(
       (activity) => activity.groupId === id
     );
     setGroupActivities(filteredActivities);
-  }, [activityLog, id]);
+
+    const filteredExpenses = expenses.filter(
+      (expense) => expense.groupId === id
+    );
+    console.log("filteredExpenses:", filteredExpenses);
+    setFilteredExpenses(filteredExpenses);
+  }, [activityLog, expenses, id]);
 
   const toggleAddNewMembersModal = () => {
     setShowAddNewMembersModal(!showAddNewMembersModal);
@@ -58,7 +65,9 @@ const GroupDetailsPage = () => {
 
   return (
     <div className="group-details-page">
-      <h1>Group Name: {groups[0]?.name}</h1>
+      <h1>
+        Group Name: {(groups.find((group) => group.groupId === id) || {}).name}
+      </h1>
 
       {/* Group Members modal */}
       <button onClick={toggleMembersModal}>View Group Members</button>
@@ -67,7 +76,10 @@ const GroupDetailsPage = () => {
           <div className="modal-content">
             <span className="close" onClick={toggleMembersModal}></span>
             <GroupMembers
-              groupMembers={groups[0]?.groupMembers || []}
+              groupMembers={
+                (groups.find((group) => group.groupId === id) || {})
+                  .groupMembers || []
+              }
               toggleModal={toggleMembersModal}
             />
           </div>
@@ -82,9 +94,15 @@ const GroupDetailsPage = () => {
             <span className="close" onClick={toggleAddNewMembersModal}></span>
             <AddMembers
               toggleModal={toggleAddNewMembersModal}
-              alreadyAddedMembers={groups[0]?.groupMembers || []}
-              groupId={groups[0]?.groupId}
-              groupMembers={groups[0]?.groupMembers || []}
+              alreadyAddedMembers={
+                (groups.find((group) => group.groupId === id) || {})
+                  .groupMembers || []
+              }
+              groupId={id} 
+              groupMembers={
+                (groups.find((group) => group.groupId === id) || {})
+                  .groupMembers || []
+              } 
             />
           </div>
         </div>
@@ -98,7 +116,11 @@ const GroupDetailsPage = () => {
             <span className="close" onClick={toggleExpenseModal}></span>
             <AddExpense
               toggleModal={toggleExpenseModal}
-              groupMembers={groups[0]?.groupMembers || []}
+              groupId={id}
+              groupMembers={
+                (groups.find((group) => group.groupId === id) || {})
+                  .groupMembers || []
+              }
             />
           </div>
         </div>
@@ -133,11 +155,10 @@ const GroupDetailsPage = () => {
           {showExpenses && (
             <div className="my-expense-list">
               <h2>Expenses:</h2>
-              {expenses.map((expense, index) => (
+              {filteredExpenses.map((expense, index) => (
                 <ExpenseCard key={index} expense={expense} />
               ))}
-
-              {expenses.length === 0 && (
+              {filteredExpenses.length === 0 && (
                 <p>No expenses added yet. Click "Add Expense" to start.</p>
               )}
             </div>

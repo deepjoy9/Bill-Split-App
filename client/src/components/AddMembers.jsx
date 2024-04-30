@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FriendContext } from "../context/FriendContext";
 import { GroupContext } from "../context/GroupContext";
+import { ActivityContext } from "../context/ActivityContext";
 
 const AddMembers = ({ toggleModal, alreadyAddedMembers, groupId }) => {
   const { updateGroup } = useContext(GroupContext);
+  const { addActivity } = useContext(ActivityContext);
   const { friends } = useContext(FriendContext);
   const [selectedFriends, setSelectedFriends] = useState([]);
   console.log("Group ID in AddMembers component:", groupId);
@@ -30,7 +32,22 @@ const AddMembers = ({ toggleModal, alreadyAddedMembers, groupId }) => {
     // Update group members using updateGroup function from GroupContext
     updateGroup(groupId, { members: uniqueSelectedFriends });
 
-    // Reset selectedFriends state to empty array after adding members
+    // Filter out already added members from uniqueSelectedFriends
+    const newlyAddedMembers = uniqueSelectedFriends.filter(
+      (friend) => !alreadyAddedMembers.includes(friend)
+    );
+
+    // Add activity for each new members added
+    const activityMessage = `Added ${newlyAddedMembers.join(
+      ", "
+    )} to the group`;
+
+    const activityDetails = {
+      groupId: groupId,
+      activityMessage: activityMessage,
+    };
+    addActivity(activityDetails);
+
     setSelectedFriends([]);
     toggleModal();
   };
@@ -48,7 +65,7 @@ const AddMembers = ({ toggleModal, alreadyAddedMembers, groupId }) => {
               value={friend.name}
               checked={selectedFriends.includes(friend.name)}
               onChange={() => handleCheckboxChange(friend.name)}
-              disabled={alreadyAddedMembers.includes(friend.name)} // Disable if friend is already added
+              disabled={alreadyAddedMembers.includes(friend.name)}
             />
             <label className="add-members-label" htmlFor={`friend-${index}`}>
               {friend.name}

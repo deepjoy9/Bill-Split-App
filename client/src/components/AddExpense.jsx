@@ -1,7 +1,9 @@
 import React, { useContext, useState } from "react";
 import { ExpenseContext } from "../context/ExpenseContext";
+import { ActivityContext } from "../context/ActivityContext";
 
-const AddExpense = ({ toggleModal, groupMembers }) => {
+const AddExpense = ({ toggleModal, groupMembers, groupId }) => {
+  const { addActivity } = useContext(ActivityContext);
   const [expenseName, setExpenseName] = useState("");
   const [amount, setAmount] = useState("");
   const [paidBy, setPaidBy] = useState("");
@@ -26,6 +28,7 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
     );
 
     const newExpense = {
+      groupId: groupId,
       name: expenseName,
       amount: parseFloat(amount),
       paidBy: paidBy,
@@ -35,6 +38,15 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
     };
     console.log(newExpense);
     addExpense(newExpense);
+    toggleModal();
+
+    // Add activity for each expense added
+    const activityMessage = `Added ${expenseName} expense to the group`;
+    const activityDetails = {
+      groupId: groupId,
+      activityMessage: activityMessage,
+    };
+    addActivity(activityDetails);
 
     setExpenseName("");
     setAmount("");
@@ -42,7 +54,6 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
     setSplitEqually(true);
     setSplitManuallyEnabled(false);
     setSplitManually([{ member: "", amount: "", description: "" }]);
-    toggleModal();
   };
 
   const handleCheckboxChange = (member) => {
@@ -250,7 +261,8 @@ const AddExpense = ({ toggleModal, groupMembers }) => {
                         }
                         placeholder="Description"
                       />
-                      {splitManually.length > 1 && ( // Render remove button only if there are more than one fields
+                      {/*  Render remove button only if there are more than one fields */}
+                      {splitManually.length > 1 && (
                         <button
                           type="button"
                           onClick={() => handleRemoveManualSplit(index)}
