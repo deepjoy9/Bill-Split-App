@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GroupContext } from "../context/GroupContext";
 import { ExpenseContext } from "../context/ExpenseContext";
 import AddExpense from "../components/AddExpense";
@@ -6,16 +6,29 @@ import AddMembers from "../components/AddMembers";
 import ExpenseCard from "../components/ExpenseCard";
 import GroupMembers from "../components/GroupMembers";
 import ActivityCard from "../components/ActivityCard";
+import { ActivityContext } from "../context/ActivityContext";
+import { useParams } from "react-router-dom";
 
 const GroupDetailsPage = () => {
+  const { id } = useParams();
+  console.log("Group Id : ", id);
   const { groups } = useContext(GroupContext);
   const { expenses } = useContext(ExpenseContext);
+  const { activityLog } = useContext(ActivityContext);
   const [showAddNewMembersModal, setShowAddNewMembersModal] = useState(false);
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [showMembersModal, setShowMembersModal] = useState(false);
   const [showActivity, setShowActivity] = useState(false);
   const [showExpenses, setShowExpenses] = useState(true);
   const [activeTab, setActiveTab] = useState("expenses");
+  const [groupActivities, setGroupActivities] = useState([]);
+
+  useEffect(() => {
+    const filteredActivities = activityLog.filter(
+      (activity) => activity.groupId === id
+    );
+    setGroupActivities(filteredActivities);
+  }, [activityLog, id]);
 
   const toggleAddNewMembersModal = () => {
     setShowAddNewMembersModal(!showAddNewMembersModal);
@@ -42,12 +55,6 @@ const GroupDetailsPage = () => {
       setShowExpenses(false);
     }
   };
-
-  // Mock activity log
-  const activityLog = [
-    "New group members added on 2024-04-29",
-    "New expense added on 2024-04-28",
-  ];
 
   return (
     <div className="group-details-page">
@@ -142,10 +149,12 @@ const GroupDetailsPage = () => {
           {showActivity && (
             <div className="activity-log">
               <h2>Group Activities:</h2>
-              {activityLog.map((activity, index) => (
+              {groupActivities.map((activity, index) => (
                 <ActivityCard key={index} activity={activity} />
               ))}
-              {activityLog.length === 0 && <p>No activity data available</p>}
+              {groupActivities.length === 0 && (
+                <p>No activity data available</p>
+              )}
             </div>
           )}
         </div>

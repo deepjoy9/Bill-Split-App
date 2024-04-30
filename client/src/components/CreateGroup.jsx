@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
 import { GroupContext } from "../context/GroupContext";
 import { FriendContext } from "../context/FriendContext";
+import { ActivityContext } from "../context/ActivityContext";
 
 const CreateGroup = ({ toggleModal }) => {
   const [groupName, setGroupName] = useState("");
   const { addGroup } = useContext(GroupContext);
+  const { addActivity } = useContext(ActivityContext);
   const [groupMembers, setGroupMembers] = useState(["Deepjoy"]);
   const [showMembersAccordion, setShowMembersAccordion] = useState(false);
   const { friends } = useContext(FriendContext);
@@ -23,17 +25,32 @@ const CreateGroup = ({ toggleModal }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const groupId = generateGroupId();
+    const date = new Date().toLocaleDateString();
+    const time = new Date().toLocaleTimeString();
+
     const groupDetails = {
       name: groupName,
       groupMembers: groupMembers,
-      date: new Date().toLocaleDateString(),
-      groupId: generateGroupId(),
+      date: date,
+      time: time,
+      groupId: groupId,
     };
-    console.log(groupDetails);
+    console.log("Group Details : ", groupDetails);
     addGroup(groupDetails);
+    toggleModal();
+
+    const activityDetails = {
+      groupId: groupId,
+      activityMessage: `Group created on ${date} at ${time} with members: ${groupMembers.join(
+        ", "
+      )}`,
+    };
+    console.log("Activity Details : ", activityDetails);
+    addActivity(activityDetails);
+
     setGroupName("");
     setGroupMembers([]);
-    toggleModal();
   };
 
   const toggleMembersAccordion = () => {
