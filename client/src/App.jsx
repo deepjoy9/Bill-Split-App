@@ -19,7 +19,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<MyGroupsPage />} />
               <Route path="/friends" element={<MyFriendsPage />} />
-              <Route path="/groups/:name" element={<GroupDetailsPage />} />
+              <Route path="/groups/:id" element={<GroupDetailsPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Route>

@@ -14,10 +14,9 @@ const CreateGroup = ({ toggleModal }) => {
   };
 
   const generateGroupId = () => {
-    // Generate a random string of characters (you can use a library like uuid)
     const randomString = Math.random().toString(36).substring(2, 8);
-    // Concatenate with a prefix to ensure uniqueness
-    const groupId = `group_${randomString}`;
+    const formattedGroupName = groupName.toLowerCase().replace(/\s+/g, "-");
+    const groupId = `${formattedGroupName}-${randomString}`;
     return groupId;
   };
 

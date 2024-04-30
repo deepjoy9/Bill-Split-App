@@ -32,6 +32,7 @@ const MyGroupsPage = () => {
             name={group.name}
             date={group.date}
             groupMembers={group.groupMembers}
+            id={group.groupId}
           />
         ))}
       </div>
