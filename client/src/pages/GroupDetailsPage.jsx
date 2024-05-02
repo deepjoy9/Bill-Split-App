@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { GroupContext } from "../context/GroupContext";
 import { ExpenseContext } from "../context/ExpenseContext";
 import AddExpense from "../components/AddExpense";
@@ -11,18 +17,26 @@ import { useParams } from "react-router-dom";
 
 const GroupDetailsPage = () => {
   const { id } = useParams();
-  console.log("Group Id : ", id);
   const { groups } = useContext(GroupContext);
   const { expenses } = useContext(ExpenseContext);
   const { activityLog } = useContext(ActivityContext);
-  const [showAddNewMembersModal, setShowAddNewMembersModal] = useState(false);
-  const [showExpenseModal, setShowExpenseModal] = useState(false);
-  const [showMembersModal, setShowMembersModal] = useState(false);
-  const [showActivity, setShowActivity] = useState(false);
-  const [showExpenses, setShowExpenses] = useState(true);
+
+  const [modalState, setModalState] = useState({
+    addMembers: false,
+    addExpense: false,
+    viewMembers: false,
+  });
+
   const [activeTab, setActiveTab] = useState("expenses");
   const [groupActivities, setGroupActivities] = useState([]);
   const [filteredExpenses, setFilteredExpenses] = useState([]);
+
+  const toggleModal = useCallback((modalName) => {
+    setModalState((prevState) => ({
+      ...prevState,
+      [modalName]: !prevState[modalName],
+    }));
+  }, []);
 
   useEffect(() => {
     const filteredActivities = activityLog.filter(
@@ -37,61 +51,47 @@ const GroupDetailsPage = () => {
     setFilteredExpenses(filteredExpenses);
   }, [activityLog, expenses, id]);
 
-  const toggleAddNewMembersModal = () => {
-    setShowAddNewMembersModal(!showAddNewMembersModal);
-  };
+  const group = useMemo(
+    () => groups.find((group) => group.groupId === id) || {},
+    [groups, id]
+  );
 
-  const toggleExpenseModal = () => {
-    setShowExpenseModal(!showExpenseModal);
-  };
-
-  const toggleMembersModal = () => {
-    setShowMembersModal(!showMembersModal);
-  };
-
-  const toggleExpenses = () => {
-    if (!showExpenses) {
-      setShowExpenses(true);
-      setShowActivity(false);
-    }
-  };
-
-  const toggleActivity = () => {
-    if (!showActivity) {
-      setShowActivity(true);
-      setShowExpenses(false);
-    }
-  };
-
-  const group = groups.find((group) => group.groupId === id) || {};
-  const groupMembers = group.groupMembers || [];
+  const groupMembers = useMemo(() => group.groupMembers || [], [group]);
 
   return (
     <div className="group-details-page">
-      <h1>Group Name: {group.name}</h1>
+      <h1>Group Name: {group?.name}</h1>
 
       {/* Group Members modal */}
-      <button onClick={toggleMembersModal}>View Group Members</button>
-      {showMembersModal && (
+      <button onClick={() => toggleModal("viewMembers")}>
+        View Group Members
+      </button>
+      {modalState.viewMembers && (
         <div className="modal">
           <div className="modal-content">
-            <span className="close" onClick={toggleMembersModal}></span>
+            <span
+              className="close"
+              onClick={() => toggleModal("viewMembers")}
+            ></span>
             <GroupMembers
               groupMembers={groupMembers}
-              toggleModal={toggleMembersModal}
+              toggleModal={() => toggleModal("viewMembers")}
             />
           </div>
         </div>
       )}
 
       {/* Add New Members modal */}
-      <button onClick={toggleAddNewMembersModal}>Add New Members</button>
-      {showAddNewMembersModal && (
+      <button onClick={() => toggleModal("addMembers")}>Add New Members</button>
+      {modalState.addMembers && (
         <div className="modal">
           <div className="modal-content">
-            <span className="close" onClick={toggleAddNewMembersModal}></span>
+            <span
+              className="close"
+              onClick={() => toggleModal("addMembers")}
+            ></span>
             <AddMembers
-              toggleModal={toggleAddNewMembersModal}
+              toggleModal={() => toggleModal("addMembers")}
               alreadyAddedMembers={groupMembers}
               groupId={id}
               groupMembers={groupMembers}
@@ -101,13 +101,16 @@ const GroupDetailsPage = () => {
       )}
 
       {/* Add Expense modal */}
-      <button onClick={toggleExpenseModal}>Add Expense</button>
-      {showExpenseModal && (
+      <button onClick={() => toggleModal("addExpense")}>Add Expense</button>
+      {modalState.addExpense && (
         <div className="modal">
           <div className="modal-content">
-            <span className="close" onClick={toggleExpenseModal}></span>
+            <span
+              className="close"
+              onClick={() => toggleModal("addExpense")}
+            ></span>
             <AddExpense
-              toggleModal={toggleExpenseModal}
+              toggleModal={() => toggleModal("addExpense")}
               groupId={id}
               groupMembers={groupMembers}
             />
@@ -121,7 +124,6 @@ const GroupDetailsPage = () => {
         <div className="group-tab-buttons">
           <button
             onClick={() => {
-              toggleExpenses();
               setActiveTab("expenses");
             }}
             className={activeTab === "expenses" ? "active" : ""}
@@ -130,7 +132,6 @@ const GroupDetailsPage = () => {
           </button>
           <button
             onClick={() => {
-              toggleActivity();
               setActiveTab("activity");
             }}
             className={activeTab === "activity" ? "active" : ""}
@@ -141,14 +142,15 @@ const GroupDetailsPage = () => {
 
         {/* Display all list of Expenses */}
         <div>
-          {showExpenses && (
+          {activeTab === "expenses" && (
             <div className="my-expense-list">
               <h2>Expenses:</h2>
-              {filteredExpenses.map((expense, index) => (
-                <ExpenseCard key={index} expense={expense} />
-              ))}
-              {filteredExpenses.length === 0 && (
+              {filteredExpenses.length === 0 ? (
                 <p>No expenses added yet. Click "Add Expense" to start.</p>
+              ) : (
+                filteredExpenses.map((expense, index) => (
+                  <ExpenseCard key={index} expense={expense} />
+                ))
               )}
             </div>
           )}
@@ -156,14 +158,15 @@ const GroupDetailsPage = () => {
 
         {/* Activity tab */}
         <div>
-          {showActivity && (
+          {activeTab === "activity" && (
             <div className="activity-log">
               <h2>Group Activities:</h2>
-              {groupActivities.map((activity, index) => (
-                <ActivityCard key={index} activity={activity} />
-              ))}
-              {groupActivities.length === 0 && (
+              {groupActivities.length === 0 ? (
                 <p>No activity data available</p>
+              ) : (
+                groupActivities.map((activity, index) => (
+                  <ActivityCard key={index} activity={activity} />
+                ))
               )}
             </div>
           )}
