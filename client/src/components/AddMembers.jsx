@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { FriendContext } from "../context/FriendContext";
 import { GroupContext } from "../context/GroupContext";
 import { ActivityContext } from "../context/ActivityContext";
@@ -8,36 +8,46 @@ const AddMembers = ({ toggleModal, alreadyAddedMembers, groupId }) => {
   const { addActivity } = useContext(ActivityContext);
   const { friends } = useContext(FriendContext);
   const [selectedFriends, setSelectedFriends] = useState([]);
-  console.log("Group ID in AddMembers component:", groupId);
-  console.log(alreadyAddedMembers);
+
+  const memoizedFriends = useMemo(() => friends, [friends]);
 
   useEffect(() => {
-    // Initialize selectedFriends state with alreadyAddedMembers when the component mounts
-    console.log("Rerender", alreadyAddedMembers);
     setSelectedFriends(alreadyAddedMembers);
   }, [alreadyAddedMembers]);
 
-  const handleCheckboxChange = (friendName) => {
-    if (selectedFriends.includes(friendName)) {
-      setSelectedFriends(selectedFriends.filter((name) => name !== friendName));
-    } else {
-      setSelectedFriends([...selectedFriends, friendName]);
-    }
-  };
+  const handleCheckboxChange = useCallback((friendName) => {
+    setSelectedFriends((prevSelectedFriends) => {
+      if (prevSelectedFriends.includes(friendName)) {
+        return prevSelectedFriends.filter((name) => name !== friendName);
+      } else {
+        return [...prevSelectedFriends, friendName];
+      }
+    });
+  }, []);
+
+  const memoizedUpdateGroup = useCallback(
+    (groupId, groupData) => {
+      updateGroup(groupId, groupData);
+    },
+    [updateGroup]
+  );
+
+  const memoizedAddActivity = useCallback(
+    (activityDetails) => {
+      addActivity(activityDetails);
+    },
+    [addActivity]
+  );
 
   const handleAddMembers = () => {
-    // Remove duplicates from selectedFriends array
     const uniqueSelectedFriends = [...new Set(selectedFriends)];
 
-    // Update group members using updateGroup function from GroupContext
-    updateGroup(groupId, { members: uniqueSelectedFriends });
+    memoizedUpdateGroup(groupId, { members: uniqueSelectedFriends });
 
-    // Filter out already added members from uniqueSelectedFriends
     const newlyAddedMembers = uniqueSelectedFriends.filter(
       (friend) => !alreadyAddedMembers.includes(friend)
     );
 
-    // Add activity for each new members added
     const activityMessage = `Added ${newlyAddedMembers.join(
       ", "
     )} to the group`;
@@ -46,7 +56,7 @@ const AddMembers = ({ toggleModal, alreadyAddedMembers, groupId }) => {
       groupId: groupId,
       activityMessage: activityMessage,
     };
-    addActivity(activityDetails);
+    memoizedAddActivity(activityDetails);
 
     setSelectedFriends([]);
     toggleModal();
@@ -56,7 +66,7 @@ const AddMembers = ({ toggleModal, alreadyAddedMembers, groupId }) => {
     <div className="add-members-container">
       <h2>Add New Members : </h2>
       <div className="checkbox-container">
-        {friends.map((friend, index) => (
+        {memoizedFriends.map((friend, index) => (
           <div key={index}>
             <input
               className="checkbox-input"
