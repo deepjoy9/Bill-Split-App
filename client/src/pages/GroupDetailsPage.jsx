@@ -14,6 +14,8 @@ import GroupMembers from "../components/GroupMembers";
 import ActivityCard from "../components/ActivityCard";
 import { ActivityContext } from "../context/ActivityContext";
 import { useParams } from "react-router-dom";
+import ExpenseList from "../components/ExpenseList";
+import ActivityList from "../components/ActivityList";
 
 const GroupDetailsPage = () => {
   const { id } = useParams();
@@ -29,7 +31,7 @@ const GroupDetailsPage = () => {
 
   const [activeTab, setActiveTab] = useState("expenses");
   const [groupActivities, setGroupActivities] = useState([]);
-  const [filteredExpenses, setFilteredExpenses] = useState([]);
+  const [groupExpenses, setGroupExpenses] = useState([]);
 
   const toggleModal = useCallback((modalName) => {
     setModalState((prevState) => ({
@@ -47,8 +49,7 @@ const GroupDetailsPage = () => {
     const filteredExpenses = expenses.filter(
       (expense) => expense.groupId === id
     );
-    console.log("filteredExpenses:", filteredExpenses);
-    setFilteredExpenses(filteredExpenses);
+    setGroupExpenses(filteredExpenses);
   }, [activityLog, expenses, id]);
 
   const group = useMemo(
@@ -149,38 +150,10 @@ const GroupDetailsPage = () => {
         </div>
 
         {/* Display all list of Expenses */}
-        <div className="view-list">
-          {activeTab === "expenses" && (
-            <div>
-              <h2>Expenses:</h2>
-              {filteredExpenses.length === 0 ? (
-                <p className="no-activity">
-                  No expenses added yet. Click "Add Expense" to start.
-                </p>
-              ) : (
-                filteredExpenses.map((expense, index) => (
-                  <ExpenseCard key={index} expense={expense} />
-                ))
-              )}
-            </div>
-          )}
-        </div>
+        <ExpenseList expenses={groupExpenses} activeTab={activeTab} />
 
-        {/* Activity tab */}
-        <div className="view-list">
-          {activeTab === "activity" && (
-            <div className="activity-log">
-              <h2>Group Activities:</h2>
-              {groupActivities.length === 0 ? (
-                <p className="no-activity">No activity data available</p>
-              ) : (
-                groupActivities.map((activity, index) => (
-                  <ActivityCard key={index} activity={activity} />
-                ))
-              )}
-            </div>
-          )}
-        </div>
+        {/* Display all list of Activities */}
+        <ActivityList activities={groupActivities} activeTab={activeTab} />
       </div>
     </div>
   );
