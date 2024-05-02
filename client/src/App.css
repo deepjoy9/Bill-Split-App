@@ -8,7 +8,7 @@
 }
 body {
   color: #222;
-  background-color: #faf3e0;
+  background-color: #f2f2f2;
 }
 
 /* Layout */
@@ -93,10 +93,10 @@ header nav button {
   margin-bottom: 20px;
 }
 .create-group-container button {
-  background-color: #4cd9b7;
+  background-color: #a6b1bf;
 }
 .create-group-container button:hover {
-  background-color: #20c997;
+  background-color: #6b798c;
 }
 .form-group {
   margin-bottom: 20px;
@@ -120,13 +120,13 @@ button {
   font-size: 18px;
   border: none;
   border-radius: 5px;
-  background-color: #4cd9b7;
+  background-color: #a6b1bf;
   color: #fff;
   cursor: pointer;
   margin-bottom: 5px;
 }
 button:hover {
-  background-color: #20c997;
+  background-color: #6b798c;
 }
 
 /* Modal styles */
@@ -209,14 +209,17 @@ form button:hover {
   margin-bottom: 5px;
 }
 .group-tab-buttons button {
-  background-color: #4cd9b7;
+  background-color: #a6b1bf;
   border: none;
   padding: 10px;
   cursor: pointer;
 }
+.group-tab-buttons button:hover {
+  background-color: #6b798c;
+}
 
 .group-tab-buttons button.active {
-  background-color: #2f9980;
+  background-color: #6b798c;
 }
 
 .view-list h2,
@@ -231,10 +234,10 @@ form button:hover {
 }
 .add-expense button {
   /* background-color: #20c997; */
-  background-color: #4cd9b7;
+  background-color: #a6b1bf;
 }
 .add-expense button:hover {
-  background-color: #20c997;
+  background-color: #6b798c;
 }
 .split-equally-container,
 .split-manually-label-and-checkbox,
@@ -385,7 +388,7 @@ checkbox-container > label {
 .register-container button {
   width: 100%;
   display: block;
-  background-color: #777;
+  background-color: #a6b1bf;
   border: 0;
   color: #fff;
   border-radius: 5px;
@@ -394,7 +397,7 @@ checkbox-container > label {
 
 .login-container button:hover,
 .register-container button:hover {
-  background-color: #555;
+  background-color: #6b798c;
 }
 
 .link-section {
