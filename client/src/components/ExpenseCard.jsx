@@ -6,7 +6,7 @@ const ExpenseCard = ({ expense }) => {
 
   // Function to calculate split equally
   const calculateEquallySplit = () => {
-    const splitAmount = amount / membersInvolved.length;
+    const splitAmount = (amount / membersInvolved.length).toFixed(2);
     return membersInvolved.map((member, index) => ({
       member: member,
       amount: splitAmount,
