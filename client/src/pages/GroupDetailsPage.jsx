@@ -63,11 +63,12 @@ const GroupDetailsPage = () => {
     }
   };
 
+  const group = groups.find((group) => group.groupId === id) || {};
+  const groupMembers = group.groupMembers || [];
+
   return (
     <div className="group-details-page">
-      <h1>
-        Group Name: {(groups.find((group) => group.groupId === id) || {}).name}
-      </h1>
+      <h1>Group Name: {group.name}</h1>
 
       {/* Group Members modal */}
       <button onClick={toggleMembersModal}>View Group Members</button>
@@ -76,10 +77,7 @@ const GroupDetailsPage = () => {
           <div className="modal-content">
             <span className="close" onClick={toggleMembersModal}></span>
             <GroupMembers
-              groupMembers={
-                (groups.find((group) => group.groupId === id) || {})
-                  .groupMembers || []
-              }
+              groupMembers={groupMembers}
               toggleModal={toggleMembersModal}
             />
           </div>
@@ -94,15 +92,9 @@ const GroupDetailsPage = () => {
             <span className="close" onClick={toggleAddNewMembersModal}></span>
             <AddMembers
               toggleModal={toggleAddNewMembersModal}
-              alreadyAddedMembers={
-                (groups.find((group) => group.groupId === id) || {})
-                  .groupMembers || []
-              }
-              groupId={id} 
-              groupMembers={
-                (groups.find((group) => group.groupId === id) || {})
-                  .groupMembers || []
-              } 
+              alreadyAddedMembers={groupMembers}
+              groupId={id}
+              groupMembers={groupMembers}
             />
           </div>
         </div>
@@ -117,10 +109,7 @@ const GroupDetailsPage = () => {
             <AddExpense
               toggleModal={toggleExpenseModal}
               groupId={id}
-              groupMembers={
-                (groups.find((group) => group.groupId === id) || {})
-                  .groupMembers || []
-              }
+              groupMembers={groupMembers}
             />
           </div>
         </div>
