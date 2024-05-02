@@ -15,7 +15,9 @@ const MyGroupsPage = () => {
     <div className="my-groups-page">
       <h1>My Groups : </h1>
       <div>
-        <button onClick={toggleModal}>Add Group +</button>
+        <button className="add-group-button" onClick={toggleModal}>
+          Add Group +
+        </button>
         {showModal && (
           <div className="modal">
             <div className="modal-content">

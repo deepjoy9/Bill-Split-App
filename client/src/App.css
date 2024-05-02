@@ -50,7 +50,7 @@ header nav button {
   background-color: #b0c4de;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 10px;
   margin-bottom: 20px;
 }
 .group-info {
@@ -72,6 +72,9 @@ header nav button {
 /* My Groups Page */
 .my-groups-page h1 {
   text-align: center;
+  margin-bottom: 20px;
+}
+.add-group-button {
   margin-bottom: 20px;
 }
 
@@ -195,15 +198,18 @@ form button:hover {
 }
 
 /* Group Details Page */
-.group-details-page h1 {
+
+.group-details-page h2 {
   text-align: center;
+  margin-bottom: 10px;
 }
 .group-tab-buttons {
   display: flex;
   gap: 10px;
+  margin-bottom: 5px;
 }
 .group-tab-buttons button {
-  background-color: #4cd9b7; 
+  background-color: #4cd9b7;
   border: none;
   padding: 10px;
   cursor: pointer;
@@ -211,6 +217,11 @@ form button:hover {
 
 .group-tab-buttons button.active {
   background-color: #2f9980;
+}
+
+.view-list h2,
+.view-list .no-activity {
+  text-align: center;
 }
 
 /* Add Expense Component */

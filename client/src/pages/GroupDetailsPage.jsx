@@ -60,63 +60,71 @@ const GroupDetailsPage = () => {
 
   return (
     <div className="group-details-page">
-      <h1>Group Name: {group?.name}</h1>
+      <h2>Group Name: {group?.name}</h2>
 
-      {/* Group Members modal */}
-      <button onClick={() => toggleModal("viewMembers")}>
-        View Group Members
-      </button>
-      {modalState.viewMembers && (
-        <div className="modal">
-          <div className="modal-content">
-            <span
-              className="close"
-              onClick={() => toggleModal("viewMembers")}
-            ></span>
-            <GroupMembers
-              groupMembers={groupMembers}
-              toggleModal={() => toggleModal("viewMembers")}
-            />
+      {/* Buttons */}
+      <div className="group-tab-buttons">
+        <button onClick={() => toggleModal("viewMembers")}>View Members</button>
+        <button onClick={() => toggleModal("addMembers")}>Add Members</button>
+        <button onClick={() => toggleModal("addExpense")}>Add Expense</button>
+      </div>
+
+      {/* View Group Members modal */}
+      <div>
+        {modalState.viewMembers && (
+          <div className="modal">
+            <div className="modal-content">
+              <span
+                className="close"
+                onClick={() => toggleModal("viewMembers")}
+              ></span>
+              <GroupMembers
+                groupMembers={groupMembers}
+                toggleModal={() => toggleModal("viewMembers")}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Add New Members modal */}
-      <button onClick={() => toggleModal("addMembers")}>Add New Members</button>
-      {modalState.addMembers && (
-        <div className="modal">
-          <div className="modal-content">
-            <span
-              className="close"
-              onClick={() => toggleModal("addMembers")}
-            ></span>
-            <AddMembers
-              toggleModal={() => toggleModal("addMembers")}
-              alreadyAddedMembers={groupMembers}
-              groupId={id}
-              groupMembers={groupMembers}
-            />
+      <div>
+        {modalState.addMembers && (
+          <div className="modal">
+            <div className="modal-content">
+              <span
+                className="close"
+                onClick={() => toggleModal("addMembers")}
+              ></span>
+              <AddMembers
+                toggleModal={() => toggleModal("addMembers")}
+                alreadyAddedMembers={groupMembers}
+                groupId={id}
+                groupMembers={groupMembers}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Add Expense modal */}
-      <button onClick={() => toggleModal("addExpense")}>Add Expense</button>
-      {modalState.addExpense && (
-        <div className="modal">
-          <div className="modal-content">
-            <span
-              className="close"
-              onClick={() => toggleModal("addExpense")}
-            ></span>
-            <AddExpense
-              toggleModal={() => toggleModal("addExpense")}
-              groupId={id}
-              groupMembers={groupMembers}
-            />
+      <div>
+        {modalState.addExpense && (
+          <div className="modal">
+            <div className="modal-content">
+              <span
+                className="close"
+                onClick={() => toggleModal("addExpense")}
+              ></span>
+              <AddExpense
+                toggleModal={() => toggleModal("addExpense")}
+                groupId={id}
+                groupMembers={groupMembers}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Tabs */}
 
@@ -141,12 +149,14 @@ const GroupDetailsPage = () => {
         </div>
 
         {/* Display all list of Expenses */}
-        <div>
+        <div className="view-list">
           {activeTab === "expenses" && (
-            <div className="my-expense-list">
+            <div>
               <h2>Expenses:</h2>
               {filteredExpenses.length === 0 ? (
-                <p>No expenses added yet. Click "Add Expense" to start.</p>
+                <p className="no-activity">
+                  No expenses added yet. Click "Add Expense" to start.
+                </p>
               ) : (
                 filteredExpenses.map((expense, index) => (
                   <ExpenseCard key={index} expense={expense} />
@@ -157,12 +167,12 @@ const GroupDetailsPage = () => {
         </div>
 
         {/* Activity tab */}
-        <div>
+        <div className="view-list">
           {activeTab === "activity" && (
             <div className="activity-log">
               <h2>Group Activities:</h2>
               {groupActivities.length === 0 ? (
-                <p>No activity data available</p>
+                <p className="no-activity">No activity data available</p>
               ) : (
                 groupActivities.map((activity, index) => (
                   <ActivityCard key={index} activity={activity} />
