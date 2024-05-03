@@ -383,7 +383,11 @@ checkbox-container > label {
   background-color: #fff;
   border-radius: 5px;
 }
-
+.error-message {
+  text-align: center;
+  color: #ff6347;
+  margin-bottom: 5px;
+}
 .login-container button,
 .register-container button {
   width: 100%;
