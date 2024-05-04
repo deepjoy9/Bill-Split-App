@@ -14,11 +14,12 @@ The Bill Splitting App is built using React, providing a modern and intuitive in
 - **Split Equally Feature**: Automatically split expenses equally among group members, saving time and effort.
 - **Split Manually Feature**: Allow users to manually customize the distribution of expenses, accommodating various scenarios and preferences.
 - **Responsive Design**: Mobile-friendly interface ensures a consistent experience across different devices.
+- **Activity Tab**: Add an activity tab to display all recent activities within a group, including new expenses, payments, and other relevant events.
+- **Efficient Form Handling**: Implemented React Hook Form and Zod for streamlined form management and secure data validation.
 
 ## Upcoming Features :
 
 - **User Authentication**: Implement a robust user authentication system to secure user accounts and data.
-- **Activity Tab**: Add an activity tab to display all recent activities within a group, including new expenses, payments, and other relevant events.
 - **Mark as Paid Feature**: Allow users to mark expenses as paid, providing clarity on outstanding payments within a group.
 - **Full Group Expenses Details**: Provide comprehensive details on group expenses, including total expenses, individual contributions, and other relevant statistics.
 - **Edit/Remove Expenses**: Enable users to edit or remove expenses after they have been added, ensuring flexibility and accuracy in expense management.
