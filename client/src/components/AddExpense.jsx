@@ -22,6 +22,13 @@ const AddExpense = ({ toggleModal, groupMembers, groupId }) => {
   const handleSubmitForm = (e) => {
     e.preventDefault();
 
+    const totalMembers = membersInvolved.length;
+    const amountToSplitEqually = parseFloat(amount) / totalMembers;
+    const splitEquallyData = membersInvolved.map((member) => ({
+      member: member,
+      amount: amountToSplitEqually.toFixed(2),
+    }));
+
     const filterSplitManuallyEmptyEntries = splitManually.filter(
       (split) =>
         split.member !== "" || split.amount !== "" || split.description !== ""
@@ -36,6 +43,12 @@ const AddExpense = ({ toggleModal, groupMembers, groupId }) => {
       splitManually: filterSplitManuallyEmptyEntries,
       membersInvolved: membersInvolved,
     };
+
+    if (splitEqually) {
+      newExpense.splitEqually = splitEquallyData;
+      newExpense.splitManually = false;
+    }
+
     console.log(newExpense);
     addExpense(newExpense);
     toggleModal();
