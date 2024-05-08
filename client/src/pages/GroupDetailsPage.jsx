@@ -16,6 +16,7 @@ import { ActivityContext } from "../context/ActivityContext";
 import { useParams } from "react-router-dom";
 import ExpenseList from "../components/ExpenseList";
 import ActivityList from "../components/ActivityList";
+import ExpenseSummary from "../components/ExpenseSummary";
 
 const GroupDetailsPage = () => {
   const { id } = useParams();
@@ -32,6 +33,7 @@ const GroupDetailsPage = () => {
   const [activeTab, setActiveTab] = useState("expenses");
   const [groupActivities, setGroupActivities] = useState([]);
   const [groupExpenses, setGroupExpenses] = useState([]);
+  const [groupSummary, setGroupSummary] = useState([]);
 
   const toggleModal = useCallback((modalName) => {
     setModalState((prevState) => ({
@@ -50,6 +52,7 @@ const GroupDetailsPage = () => {
       (expense) => expense.groupId === id
     );
     setGroupExpenses(filteredExpenses);
+    setGroupSummary(filteredExpenses);
   }, [activityLog, expenses, id]);
 
   const group = useMemo(
@@ -141,6 +144,14 @@ const GroupDetailsPage = () => {
           </button>
           <button
             onClick={() => {
+              setActiveTab("summary");
+            }}
+            className={activeTab === "summary" ? "active" : ""}
+          >
+            View Summary
+          </button>
+          <button
+            onClick={() => {
               setActiveTab("activity");
             }}
             className={activeTab === "activity" ? "active" : ""}
@@ -154,6 +165,13 @@ const GroupDetailsPage = () => {
 
         {/* Display all list of Activities */}
         <ActivityList activities={groupActivities} activeTab={activeTab} />
+
+        {/* Display expense summary of the group */}
+        <div>
+          {activeTab === "summary" && (
+            <ExpenseSummary expenses={groupSummary} />
+          )}
+        </div>
       </div>
     </div>
   );
