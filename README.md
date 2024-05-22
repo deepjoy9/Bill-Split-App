@@ -6,6 +6,12 @@ Welcome to the Bill Splitting App! This application is designed to help users ea
 
 The Bill Splitting App is built using React, providing a modern and intuitive interface for users to manage expenses and split bills effortlessly. Whether you're planning a group trip, sharing household expenses, or simply splitting a dinner bill with friends, this app has got you covered.
 
+## Tech Stack
+- **React**: JavaScript library for building user interfaces
+- **Vite**: Next-generation frontend tooling for fast development and build
+- **React Hook Form**: Performant, flexible, and extensible forms with easy-to-use validation.
+- **Zod**: A powerful and expressive schema declaration and validation library.
+
 ## Features :
 
 - **Group Management**: Create, join, and manage groups to split bills among friends or specific groups.
